@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(private val repository: QuotesRepository) : ViewModel() {
     init {
         viewModelScope.launch(Dispatchers.IO) {
-           // repository.getQuotes(1)
+            repository.getQuotes()
             repository.getRandomQuote()
         }
     }
@@ -22,7 +22,8 @@ class MainViewModel(private val repository: QuotesRepository) : ViewModel() {
     val randomQuote: LiveData<com.ganeshgfx.quotes.models.Result>
         get() = repository.randomQuote
 
-    suspend fun refreshQuote(){
+    suspend fun refreshQuote() {
         repository.getRandomQuote()
+        repository.getQuotes()
     }
 }

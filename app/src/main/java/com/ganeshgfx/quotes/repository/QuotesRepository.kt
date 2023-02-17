@@ -17,43 +17,47 @@ class QuotesRepository(
 ) {
 
     private val quotesLiveData = MutableLiveData<QuoteList>()
-    private val _randomQuote = MutableLiveData<Result>()
+    private val _randomQuote = MutableLiveData<Result>(Result("","Loading...","","Loading...","","",-1))
 
     val quotes: LiveData<QuoteList>
         get() = quotesLiveData
 
-    val randomQuote : LiveData<Result>
-    get() = _randomQuote
+    val randomQuote: LiveData<Result>
+        get() = _randomQuote
 
-    suspend fun getQuotes(page: Int) {
+    suspend fun getQuotes() {
 
-        if(NetworkUtils.isOnline(context)){
-            val result = quoteService.getQuotes(page)
-            if (result?.body() != null) {
-                quoteDatabase.quoteDao().addQuates(result.body()!!.results)
-                quotesLiveData.postValue(result.body())
-            }
-        }else{
-           val quotes = quoteDatabase.quoteDao().getQuotes()
-            val quotesList = QuoteList(1,1,1,quotes,1,1)
-            quotesLiveData.postValue(quotesList)
-        }
+        val quotes = quoteDatabase.quoteDao().getQuotes()
+        val quotesList = QuoteList(1, 1, 1, quotes, 1, 1)
+        quotesLiveData.postValue(quotesList)
+
+//        if (NetworkUtils.isOnline(context)) {
+//            val result = quoteService.getQuotes(page)
+//            if (result?.body() != null) {
+//                quoteDatabase.quoteDao().addQuates(result.body()!!.results)
+//                quotesLiveData.postValue(result.body())
+//            }
+//        } else {
+//            val quotes = quoteDatabase.quoteDao().getQuotes()
+//            val quotesList = QuoteList(1, 1, 1, quotes, 1, 1)
+//            quotesLiveData.postValue(quotesList)
+//        }
 
     }
 
     suspend fun getRandomQuote() {
-        if(NetworkUtils.isOnline(context)){
+        if (NetworkUtils.isOnline(context)) {
             val quote = quoteService.getRandomQuote()
             if (quote != null) {
                 //uoteDatabase.quoteDao().addOneQuote()
-                val r : Result? = quote.body()
+                val r: Result? = quote.body()
                 if (r != null) {
                     _randomQuote.postValue(r)
                     quoteDatabase.quoteDao().addOneQuote(r)
                 }
                 //Log.d("TAG", "getRandomQuote: ${quote.body()}")
             }
-        }else{
+        } else {
 //            val quotes = quoteDatabase.quoteDao().getQuotes()
 //            val quotesList = QuoteList(1,1,1,quotes,1,1)
 //            quotesLiveData.postValue(quotesList)

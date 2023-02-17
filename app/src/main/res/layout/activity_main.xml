@@ -5,7 +5,6 @@
     tools:context=".MainActivity">
 
     <data>
-
         <variable
             name="data"
             type="com.ganeshgfx.quotes.viewmodels.MainViewModel" />
@@ -20,10 +19,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingTop="20dp"
                 android:orientation="vertical">
                 <com.google.android.material.card.MaterialCardView
                     style="@style/Widget.Material3.CardView.Outlined"
                     android:layout_width="match_parent"
+                    android:clickable="true"
                     android:layout_height="wrap_content">
 
                     <LinearLayout
@@ -52,6 +53,22 @@
                             android:text="@{data.randomQuote.author}" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:padding="10dp"
+                    android:textStyle="italic"
+                    android:text="History"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/quoteRecyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:padding="10dp"
+                    android:layout_weight="1"/>
             </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

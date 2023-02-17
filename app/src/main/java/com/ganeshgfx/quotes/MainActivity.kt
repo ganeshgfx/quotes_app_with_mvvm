@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ganeshgfx.quotes.api.QuoteService
 import com.ganeshgfx.quotes.api.RetrofitHelper
 import com.ganeshgfx.quotes.databinding.ActivityMainBinding
@@ -18,6 +19,7 @@ import com.google.android.material.elevation.SurfaceColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import com.ganeshgfx.quotes.models.Result
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +28,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainViewModel: MainViewModel
 
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var myAdapter : MainRecycleViewAdapter
+
+
+   // private val myAdapter by
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +48,21 @@ class MainActivity : AppCompatActivity() {
         mainViewModel =
             ViewModelProvider(this, MainViewModelFactory(repository)).get(MainViewModel::class.java)
 
+        myAdapter = MainRecycleViewAdapter()
+
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.reverseLayout = true
+        linearLayoutManager.stackFromEnd = true
+        binding.quoteRecyclerview.layoutManager = linearLayoutManager
+        binding.quoteRecyclerview.adapter =  myAdapter
+
         mainViewModel.quotes.observe(this) {
-            //val q = it.results.map { it.toString() + "\n" }
-            //Log.d(TAG, "${q}")
-            //binding.tv.text = q.toString()
+            var newList:MutableList<Result> = it.results.toMutableList()
+
+            newList.removeAt(newList.size-1)
+
+            myAdapter.setData(newList)
+            binding.quoteRecyclerview.smoothScrollToPosition(myAdapter.itemCount-1)
         }
 
         mainViewModel.randomQuote.observe(this) {
@@ -60,6 +78,7 @@ class MainActivity : AppCompatActivity() {
                 binding.refresh.isRefreshing = false
             }
         }
+
 
         binding.data = mainViewModel
         binding.lifecycleOwner = this
