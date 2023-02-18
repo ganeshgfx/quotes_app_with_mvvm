@@ -16,4 +16,7 @@ interface QuoteDao {
 
     @Query("SELECT * FROM quote")
     suspend fun getQuotes() : List<Result>
+
+    @Query("DELETE from quote WHERE _id != :id")
+    suspend fun clearQuotes(id:String)
 }

@@ -5,70 +5,88 @@
     tools:context=".MainActivity">
 
     <data>
+
         <variable
             name="data"
             type="com.ganeshgfx.quotes.viewmodels.MainViewModel" />
     </data>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp">
+        android:layout_height="match_parent">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="20dp">
+
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/mainQoute"
                     style="@style/Widget.Material3.CardView.Outlined"
                     android:layout_width="match_parent"
-                    android:clickable="true"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:clickable="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_margin="10dp">
+                        android:orientation="vertical">
 
                         <com.google.android.material.card.MaterialCardView
                             style="@style/Widget.Material3.CardView.Filled"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:tooltipText="@{data.randomQuote.content}">
+
                             <TextView
+                                android:id="@+id/content"
+                                style="@style/TextAppearance.MaterialComponents.Headline6"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
-                                style="@style/TextAppearance.MaterialComponents.Headline6"
                                 android:text="@{data.randomQuote.content}" />
                         </com.google.android.material.card.MaterialCardView>
+
                         <TextView
+                            android:id="@+id/author"
+                            style="@style/TextAppearance.MaterialComponents.Subtitle1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
-                            android:textAlignment="textEnd"
-                            style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                            android:text="@{data.randomQuote.author}" />
+                            android:text="@{data.randomQuote.author}"
+                            android:textAlignment="textEnd" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:padding="10dp"
-                    android:textStyle="italic"
+                    android:paddingEnd="20dp"
+                    android:paddingTop="20dp"
                     android:text="History"
-                    />
+                    android:textStyle="italic" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/quoteRecyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:padding="10dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" />
             </LinearLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </FrameLayout>
 </layout>

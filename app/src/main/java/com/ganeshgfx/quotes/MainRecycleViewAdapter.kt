@@ -19,7 +19,7 @@ class MainRecycleViewAdapter : RecyclerView.Adapter<MainRecycleViewAdapter.MyVie
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.binding.textView.text = quoteList[position].content
+        holder.binding.textView.text = "${quoteList[position].content} \n\t ~ ${quoteList[position].author}"
     }
 
     override fun getItemCount(): Int {

@@ -26,4 +26,11 @@ class MainViewModel(private val repository: QuotesRepository) : ViewModel() {
         repository.getRandomQuote()
         repository.getQuotes()
     }
+
+    suspend fun clearQuotes(){
+        repository.clearQuotes()
+        repository.getQuotes()
+    }
+
+
 }
