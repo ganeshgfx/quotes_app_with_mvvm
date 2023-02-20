@@ -7,7 +7,7 @@
     <data>
         <variable
             name="data"
-            type="com.ganeshgfx.quotes.viewmodels.MainViewModel" />
+            type="com.ganeshgfx.quotes.viewmodels.QuotesViewModel" />
     </data>
 
     <FrameLayout
@@ -34,7 +34,7 @@
                     style="@style/Widget.Material3.CardView.Outlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onLongClick="@{(view) -> data.copyText(view)}"
+                    android:onLongClick="@{() -> data.copyText()}"
                     android:clickable="true">
 
                     <LinearLayout
@@ -47,8 +47,7 @@
                             style="@style/Widget.Material3.CardView.Elevated"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:tooltipText="@{data.randomQuote.content}">
-
+                            >
                             <TextView
                                 android:id="@+id/content"
                                 style="@style/TextAppearance.MaterialComponents.Headline6"
@@ -72,6 +71,8 @@
                             android:textAlignment="textEnd" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -30,6 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import com.ganeshgfx.quotes.models.Result
+import com.ganeshgfx.quotes.viewmodels.QuotesViewModel
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -37,7 +38,8 @@ class MainActivity : AppCompatActivity() {
 
     val TAG = "TAG"
 
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var mainViewModel2: MainViewModel
+    private lateinit var mainViewModel: QuotesViewModel
 
     private lateinit var binding: ActivityMainBinding
 
@@ -55,13 +57,21 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = color
         window.navigationBarColor = color
 
-        val repository = (application as QuoteApplication).quotesRepository
 
-        mainViewModel =
-            ViewModelProvider(this, MainViewModelFactory(repository))[MainViewModel::class.java]
-        myAdapter = MainRecycleViewAdapter()
+        //ViewModel
+//        val repository = (application as QuoteApplication).quotesRepository
+//        mainViewModel2 =
+//            ViewModelProvider(this, MainViewModelFactory(repository))[MainViewModel::class.java]
+
+        //AndroidViewModel
+        mainViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory(application)
+        )[QuotesViewModel::class.java]
+
 
         //Recyclerview
+        myAdapter = MainRecycleViewAdapter()
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
@@ -98,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.clear_history -> {
-                if(mainViewModel.quotes.value?.results?.size!!>1){
+                if (mainViewModel.quotes.value?.results?.size!! > 1) {
                     MaterialAlertDialogBuilder(this).setTitle("Clear Quote History..?")
                         .setMessage("Tap 'Yes' to clear quote history and 'Cancel' to dismiss.")
                         .setNegativeButton("Cancel") { dialog, which ->
