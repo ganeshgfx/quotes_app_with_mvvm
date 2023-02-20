@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
         window.statusBarColor = color
         window.navigationBarColor = color
 
-
         //ViewModel
 //        val repository = (application as QuoteApplication).quotesRepository
 //        mainViewModel2 =
@@ -68,7 +67,6 @@ class MainActivity : AppCompatActivity() {
             this,
             ViewModelProvider.AndroidViewModelFactory(application)
         )[QuotesViewModel::class.java]
-
 
         //Recyclerview
         myAdapter = MainRecycleViewAdapter()
@@ -83,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 newList.removeAt(newList.size - 1)
             }
             myAdapter.setData(newList)
-            if (!(myAdapter.itemCount < 2))
+            if (myAdapter.itemCount >= 2)
                 binding.quoteRecyclerview.smoothScrollToPosition(myAdapter.itemCount - 1)
         }
 
@@ -109,13 +107,12 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.clear_history -> {
                 if (mainViewModel.quotes.value?.results?.size!! > 1) {
-                    MaterialAlertDialogBuilder(this).setTitle("Clear Quote History..?")
+                    MaterialAlertDialogBuilder(this)
+                        .setTitle("Clear Quote History..?")
                         .setMessage("Tap 'Yes' to clear quote history and 'Cancel' to dismiss.")
-                        .setNegativeButton("Cancel") { dialog, which ->
-                            dialog.dismiss()
-                        }
+                        .setNegativeButton("Cancel") { dialog, which -> dialog.dismiss() }
                         .setPositiveButton("Yes") { dialog, which ->
-                            GlobalScope.launch(Dispatchers.Main) {
+                            GlobalScope.launch(Dispatchers.Main){
                                 mainViewModel.clearQuotes()
                             }
                         }

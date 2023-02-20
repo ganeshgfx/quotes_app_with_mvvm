@@ -20,7 +20,6 @@ class QuotesViewModel(application: Application) : AndroidViewModel(application) 
     private val app : QuoteApplication = application as QuoteApplication
     private val repository = app.quotesRepository
 
-
     val quotes: LiveData<QuoteList>
         get() = repository.quotes
 
