@@ -5,7 +5,6 @@
     tools:context=".MainActivity">
 
     <data>
-
         <variable
             name="data"
             type="com.ganeshgfx.quotes.viewmodels.MainViewModel" />
@@ -20,6 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
+            app:onRefreshListener="@{() -> data.onRefresh()}"
+            app:refreshing="@{data.isLoading}"
             android:layout_marginEnd="10dp">
 
             <LinearLayout
@@ -33,15 +34,17 @@
                     style="@style/Widget.Material3.CardView.Outlined"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:onLongClick="@{(view) -> data.copyText(view)}"
                     android:clickable="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="10dp"
                         android:orientation="vertical">
 
                         <com.google.android.material.card.MaterialCardView
-                            style="@style/Widget.Material3.CardView.Filled"
+                            style="@style/Widget.Material3.CardView.Elevated"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:tooltipText="@{data.randomQuote.content}">
@@ -54,13 +57,17 @@
                                 android:padding="10dp"
                                 android:text="@{data.randomQuote.content}" />
                         </com.google.android.material.card.MaterialCardView>
-
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="match_parent"
+                            android:layout_margin="10dp"
+                            android:visibility="invisible"
+                            android:layout_height="wrap_content"/>
                         <TextView
                             android:id="@+id/author"
                             style="@style/TextAppearance.MaterialComponents.Subtitle1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:paddingEnd="10dp"
                             android:text="@{data.randomQuote.author}"
                             android:textAlignment="textEnd" />
                     </LinearLayout>

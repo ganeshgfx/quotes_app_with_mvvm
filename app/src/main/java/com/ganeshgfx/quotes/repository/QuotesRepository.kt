@@ -25,6 +25,7 @@ class QuotesRepository(
     val randomQuote: LiveData<Result>
         get() = _randomQuote
 
+
     suspend fun getQuotes() {
 
         val quotes = quoteDatabase.quoteDao().getQuotes()
@@ -49,18 +50,17 @@ class QuotesRepository(
         if (NetworkUtils.isOnline(context)) {
             val quote = quoteService.getRandomQuote()
             if (quote != null) {
-                //QuoteDatabase.quoteDao().addOneQuote()
                 val r: Result? = quote.body()
                 if (r != null) {
                     _randomQuote.postValue(r)
                     quoteDatabase.quoteDao().addOneQuote(r)
                 }
-                //Log.d("TAG", "getRandomQuote: ${quote.body()}")
             }
         } else {
-//            val quotes = quoteDatabase.quoteDao().getQuotes()
-//            val quotesList = QuoteList(1,1,1,quotes,1,1)
-//            quotesLiveData.postValue(quotesList)
+            val quote = quoteDatabase.quoteDao().getQuotes().let {
+                it[(it.indices).random()]
+            }
+            _randomQuote.postValue(quote)
         }
 
     }

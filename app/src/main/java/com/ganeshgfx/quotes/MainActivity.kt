@@ -59,52 +59,22 @@ class MainActivity : AppCompatActivity() {
 
         mainViewModel =
             ViewModelProvider(this, MainViewModelFactory(repository))[MainViewModel::class.java]
-
         myAdapter = MainRecycleViewAdapter()
 
+        //Recyclerview
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.reverseLayout = true
         linearLayoutManager.stackFromEnd = true
         binding.quoteRecyclerview.layoutManager = linearLayoutManager
         binding.quoteRecyclerview.adapter = myAdapter
-
         mainViewModel.quotes.observe(this) {
             var newList: MutableList<Result> = it.results.toMutableList()
-
             if (newList.size > 0) {
                 newList.removeAt(newList.size - 1)
             }
-
             myAdapter.setData(newList)
             if (!(myAdapter.itemCount < 2))
                 binding.quoteRecyclerview.smoothScrollToPosition(myAdapter.itemCount - 1)
-        }
-
-        mainViewModel.randomQuote.observe(this) {
-            //Log.d(TAG, "onCreate: ${it.content}")
-            //binding.tv.text = it.content
-        }
-
-        //Log.d("NET", "isOnline : ${NetworkUtils.isOnline(this)}")
-
-        binding.refresh.setOnRefreshListener {
-            GlobalScope.launch(Dispatchers.IO) {
-                mainViewModel.refreshQuote()
-                binding.refresh.isRefreshing = false
-            }
-        }
-
-        binding.mainQoute.setOnLongClickListener {
-
-            val textToCopy = "${binding.content.text} ~ ${binding.author.text}"
-
-            Log.d(TAG, "onCreate: ${textToCopy}")
-
-            val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText("text", textToCopy)
-            clipboardManager.setPrimaryClip(clipData)
-            //Toast.makeText(this, "Text copied to clipboard", Toast.LENGTH_LONG).show()
-            true
         }
 
         supportActionBar?.title = "Random Quotes"
