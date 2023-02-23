@@ -4,7 +4,9 @@ import android.app.Application
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.view.View
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -44,7 +46,7 @@ class QuotesViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun copyText():Boolean{
-        val textToCopy = "${randomQuote.value?.content} ~ ${randomQuote.value?.author}"
+        val textToCopy =  getTextToShare()
         val clipboardManager = app.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText("text", textToCopy)
         clipboardManager.setPrimaryClip(clipData)
@@ -59,5 +61,7 @@ class QuotesViewModel(application: Application) : AndroidViewModel(application) 
             isLoading.postValue(false)
         }
     }
+
+    fun getTextToShare() = "${randomQuote.value?.content} ~ ${randomQuote.value?.author}"
 
 }

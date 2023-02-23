@@ -5,7 +5,9 @@
     tools:context=".MainActivity">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="data"
             type="com.ganeshgfx.quotes.viewmodels.QuotesViewModel" />
@@ -19,80 +21,100 @@
             android:id="@+id/refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
             app:onRefreshListener="@{() -> data.onRefresh()}"
-            app:refreshing="@{data.isLoading}"
-            android:layout_marginEnd="10dp">
+            app:refreshing="@{data.isLoading}">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingTop="20dp">
+                android:orientation="vertical">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/mainQoute"
-                    style="@style/Widget.Material3.CardView.Outlined"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onLongClick="@{() -> data.copyText()}"
-                    android:clickable="true">
+                    >
 
-                    <LinearLayout
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/mainQoute"
+                        style="@style/Widget.Material3.CardView.Outlined"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:orientation="vertical">
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="23dp"
+                        android:clickable="true"
+                        android:onLongClick="@{() -> data.copyText()}">
 
-                        <com.google.android.material.card.MaterialCardView
-                            style="@style/Widget.Material3.CardView.Elevated"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            >
-                            <TextView
-                                android:id="@+id/content"
-                                style="@style/TextAppearance.MaterialComponents.Headline6"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <com.google.android.material.card.MaterialCardView
+                                style="@style/Widget.Material3.CardView.Elevated"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/content"
+                                    style="@style/TextAppearance.MaterialComponents.Headline6"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="10dp"
+                                    android:text="@{data.randomQuote.content}" />
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <com.google.android.material.divider.MaterialDivider
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:padding="10dp"
-                                android:text="@{data.randomQuote.content}" />
-                        </com.google.android.material.card.MaterialCardView>
-                        <com.google.android.material.divider.MaterialDivider
-                            android:layout_width="match_parent"
-                            android:layout_margin="10dp"
-                            android:visibility="invisible"
-                            android:layout_height="wrap_content"/>
-                        <TextView
-                            android:id="@+id/author"
-                            style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingEnd="10dp"
-                            android:text="@{data.randomQuote.author}"
-                            android:textAlignment="textEnd" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                                android:layout_margin="1dp"
+                                android:visibility="invisible" />
 
+                            <TextView
+                                android:id="@+id/author"
+                                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingEnd="10dp"
+                                android:text="@{data.randomQuote.author}"
+                                android:textAlignment="textEnd" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.Material3.Button.IconButton.Filled.Tonal"
+                        android:id="@+id/shareQuote"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_gravity="bottom|start"
+                        app:icon="@drawable/twotone_share_24"
+                        app:iconPadding="5dp" />
+                </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:paddingEnd="20dp"
-                    android:paddingTop="20dp"
                     android:text="History"
 
                     android:textStyle="italic" />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
-                    android:layout_margin="10dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/quoteRecyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_weight="1"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp" />

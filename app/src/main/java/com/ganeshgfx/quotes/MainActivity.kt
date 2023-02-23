@@ -3,6 +3,7 @@ package com.ganeshgfx.quotes
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var myAdapter: MainRecycleViewAdapter
-
+    
 
     // private val myAdapter by
 
@@ -85,7 +86,16 @@ class MainActivity : AppCompatActivity() {
                 binding.quoteRecyclerview.smoothScrollToPosition(myAdapter.itemCount - 1)
         }
 
+        binding.shareQuote.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.setType("text/plain")
+            intent.putExtra(Intent.EXTRA_TEXT, mainViewModel.getTextToShare())
+            startActivity(intent)
+
+        }
+
         supportActionBar?.title = "Random Quotes"
+        supportActionBar?.elevation = 10F
 
         binding.data = mainViewModel
         binding.lifecycleOwner = this

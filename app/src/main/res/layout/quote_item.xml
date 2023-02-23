@@ -15,7 +15,7 @@
         android:layout_gravity="center">
         <com.google.android.material.button.MaterialButton
             android:id="@+id/quoteItem"
-            style="@style/Widget.Material3.Button.TonalButton"
+            style="@style/Widget.Material3.Button.TextButton"
             app:cornerRadius="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
