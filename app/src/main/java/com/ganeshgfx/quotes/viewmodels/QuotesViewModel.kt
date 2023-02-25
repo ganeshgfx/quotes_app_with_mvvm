@@ -5,7 +5,9 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -30,19 +32,22 @@ class QuotesViewModel(application: Application) : AndroidViewModel(application) 
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getQuotes()
             repository.getRandomQuote()
+            repository.getQuotes()
         }
     }
 
     suspend fun refreshQuote() {
         repository.getRandomQuote()
+        repository.addOldRandomQuoteToDb()
         repository.getQuotes()
+        Log.d("TAG", "Size : ${quotes.value?.results?.size}")
     }
 
     suspend fun clearQuotes(){
         repository.clearQuotes()
         repository.getQuotes()
+        Log.d("TAG", "Size : ${quotes.value?.results?.size}")
     }
 
     fun copyText():Boolean{
@@ -54,14 +59,19 @@ class QuotesViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     var isLoading = MutableLiveData(false)
-
     fun onRefresh(){
         viewModelScope.launch(Dispatchers.IO){
             refreshQuote()
             isLoading.postValue(false)
         }
     }
-
     fun getTextToShare() = "${randomQuote.value?.content} ~ ${randomQuote.value?.author}"
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.launch {
+            repository.addOldRandomQuoteToDb()
+        }
+    }
 
 }

@@ -17,7 +17,7 @@ class QuotesRepository(
 ) {
 
     private val quotesLiveData = MutableLiveData<QuoteList>()
-    private val _randomQuote = MutableLiveData(Result("","Loading...","","Loading...","","",-1))
+    private val _randomQuote = MutableLiveData(Result("", "", "", "", "", "", -99))
 
     val quotes: LiveData<QuoteList>
         get() = quotesLiveData
@@ -53,7 +53,6 @@ class QuotesRepository(
                 val r: Result? = quote.body()
                 if (r != null) {
                     _randomQuote.postValue(r)
-                    quoteDatabase.quoteDao().addOneQuote(r)
                 }
             }
         } else {
@@ -65,7 +64,17 @@ class QuotesRepository(
 
     }
 
-    suspend fun clearQuotes(){
-        _randomQuote.value?.let { quoteDatabase.quoteDao().clearQuotes(it._id) }
+    suspend fun addOldRandomQuoteToDb(){
+        randomQuote.value?.let {
+            if (it.length != -99) {
+                quoteDatabase.quoteDao().addOneQuote(it)
+            }
+        }
+    }
+
+    suspend fun clearQuotes() {
+        //_randomQuote.value?.let { quoteDatabase.quoteDao().clearQuotes(it._id) }
+        quoteDatabase.quoteDao().clearQuotesAll()
+        getQuotes()
     }
 }

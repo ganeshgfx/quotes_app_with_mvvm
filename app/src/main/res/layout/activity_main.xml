@@ -26,7 +26,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -63,7 +64,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:padding="10dp"
-                                    android:text="@{data.randomQuote.content}" />
+                                    android:text='@{data.randomQuote.content == "" ? "Loading" : data.randomQuote.content}' />
                             </com.google.android.material.card.MaterialCardView>
 
                             <com.google.android.material.divider.MaterialDivider
@@ -78,7 +79,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:paddingEnd="10dp"
-                                android:text="@{data.randomQuote.author}"
+                                android:text='@{data.randomQuote.author == "" ? "Loading" : data.randomQuote.author}'
                                 android:textAlignment="textEnd" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
@@ -97,14 +98,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:visibility="@{data.quotes.results.size() == 0 ? View.GONE : View.VISIBLE}"
                     android:paddingEnd="20dp"
-                    android:text="History"
+                    android:text='History'
 
                     android:textStyle="italic" />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="@{data.quotes.results.size() == 0 ? View.GONE : View.VISIBLE}"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp" />
@@ -113,6 +116,7 @@
                     android:id="@+id/quoteRecyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:visibility="@{data.quotes.results.size() == 0 ? View.GONE : View.VISIBLE}"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:layout_weight="1"

@@ -35,8 +35,8 @@ class MainViewModel(private val repository: QuotesRepository) : ViewModel() {
     }
 
     suspend fun refreshQuote() {
-        repository.getRandomQuote()
         repository.getQuotes()
+        repository.getRandomQuote()
     }
 
     suspend fun clearQuotes(){

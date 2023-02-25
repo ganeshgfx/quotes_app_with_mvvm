@@ -78,24 +78,32 @@ class MainActivity : AppCompatActivity() {
         binding.quoteRecyclerview.adapter = myAdapter
         mainViewModel.quotes.observe(this) {
             var newList: MutableList<Result> = it.results.toMutableList()
-            if (newList.size > 0) {
-                newList.removeAt(newList.size - 1)
-            }
             myAdapter.setData(newList)
             if (myAdapter.itemCount >= 2)
                 binding.quoteRecyclerview.smoothScrollToPosition(myAdapter.itemCount - 1)
         }
 
         binding.shareQuote.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SEND)
-            intent.setType("text/plain")
-            intent.putExtra(Intent.EXTRA_TEXT, mainViewModel.getTextToShare())
-            startActivity(intent)
+
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, mainViewModel.getTextToShare())
+                type = "text/plain"
+            }
+            val shareIntent = Intent.createChooser(sendIntent, "Share Quote")
+            startActivity(shareIntent)
+
+
+//            val intent = Intent(Intent.ACTION_SEND)
+//            intent.setType("text/plain")
+//            intent.putExtra(Intent.EXTRA_TEXT,  mainViewModel.getTextToShare())
+//            startActivity(intent)
 
         }
 
         supportActionBar?.title = "Random Quotes"
         supportActionBar?.elevation = 10F
+
 
         binding.data = mainViewModel
         binding.lifecycleOwner = this
@@ -116,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             R.id.clear_history -> {
-                if (mainViewModel.quotes.value?.results?.size!! > 1) {
+                if (mainViewModel.quotes.value?.results?.size!! > 0) {
                     MaterialAlertDialogBuilder(this)
                         .setTitle("Clear Quote History..?")
                         .setMessage("Tap 'Yes' to clear quote history and 'Cancel' to dismiss.")
@@ -124,10 +132,14 @@ class MainActivity : AppCompatActivity() {
                         .setPositiveButton("Yes") { dialog, which ->
                             GlobalScope.launch(Dispatchers.Main){
                                 mainViewModel.clearQuotes()
+                                myAdapter.clearList()
                             }
                         }
                         .show()
                 }
+            }
+            R.id.open_settings->{
+                startActivity(Intent(this,SettingsActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

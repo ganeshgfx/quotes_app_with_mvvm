@@ -49,4 +49,8 @@ class MainRecycleViewAdapter : RecyclerView.Adapter<MainRecycleViewAdapter.MyVie
         quoteList = newList
         diffResult.dispatchUpdatesTo(this)
     }
+
+    fun clearList(){
+        setData(emptyList<Result>())
+    }
 }

@@ -11,4 +11,9 @@
         android:title="Clear"
         app:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom" />
+    <item android:id="@+id/open_settings"
+        android:icon="@drawable/twotone_settings_24"
+        android:title="Settings"
+        app:iconTint="?attr/colorControlNormal"
+        app:showAsAction="ifRoom" />
 </menu>

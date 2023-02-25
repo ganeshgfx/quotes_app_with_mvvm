@@ -19,4 +19,7 @@ interface QuoteDao {
 
     @Query("DELETE from quote WHERE _id != :id")
     suspend fun clearQuotes(id:String)
+
+    @Query("DELETE from quote WHERE 1")
+    suspend fun clearQuotesAll()
 }
