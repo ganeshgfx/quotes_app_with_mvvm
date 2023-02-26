@@ -15,6 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.Matchers.allOf
+import org.junit.Before
 
 import org.junit.Rule
 import org.junit.Test
@@ -25,11 +26,18 @@ class MainActivityTest {
     @get:Rule
     val activityScenarioRule = activityScenarioRule<MainActivity>()
 
-
-    @Test fun testClearButton_expectedDialogBoxOpen() {
+    @Before fun setUp(){
+        runBlocking {
+            delay(1000)
+        }
+        onView(withId(R.id.refresh_quote)).perform(click())
         runBlocking {
             delay(2000)
         }
+    }
+
+    @Test fun testClearButton_expectedDialogBoxOpen() {
+
         onView(withId(R.id.clear_history)).perform(click())
         runBlocking {
             delay(2000)
@@ -38,20 +46,17 @@ class MainActivityTest {
     }
 
     @Test fun testEmptyRecyclerView_expectNoDialogBox(){
+        onView(withId(R.id.clear_history)).perform(click())
+        onView(withText("Clear Quote History..?")).check(matches(isDisplayed()))
+        onView(withId(android.R.id.button1)).perform(click())
         runBlocking {
-            delay(2000)
+            delay(1000)
         }
         onView(withId(R.id.clear_history)).perform(click())
-        runBlocking {
-            delay(2000)
-        }
         onView(withText("Clear Quote History..?")).check(doesNotExist())
     }
 
     @Test fun testRecyclerView_expectEmptyList(){
-        runBlocking {
-            delay(2000)
-        }
         onView(withId(R.id.clear_history)).perform(click())
         runBlocking {
             delay(1000)
@@ -69,7 +74,6 @@ class MainActivityTest {
     }
 
     @Test fun testShareButton_expectedIntentChooser() {
-
         init()
         val expected = allOf(
             hasAction(Intent.ACTION_CHOOSER),
