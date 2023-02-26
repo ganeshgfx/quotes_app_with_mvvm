@@ -9,8 +9,6 @@ import com.ganeshgfx.quotes.models.QuoteList
 import com.ganeshgfx.quotes.room.QuoteDatabase
 import com.ganeshgfx.quotes.utils.NetworkUtils
 import com.ganeshgfx.quotes.models.Result
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class QuotesRepository(
     private val quoteService: QuoteService,
@@ -27,23 +25,13 @@ class QuotesRepository(
     val randomQuote: LiveData<Result>
         get() = _randomQuote
 
-    suspend fun getQuotes() {
+
+    suspend fun getQuotes() :LiveData<QuoteList> {
 
         val quotes = quoteDatabase.quoteDao().getQuotes()
         val quotesList = QuoteList(1, 1, 1, quotes, 1, 1)
         quotesLiveData.postValue(quotesList)
-
-//        if (NetworkUtils.isOnline(context)) {
-//            val result = quoteService.getQuotes(page)
-//            if (result?.body() != null) {
-//                quoteDatabase.quoteDao().addQuates(result.body()!!.results)
-//                quotesLiveData.postValue(result.body())
-//            }
-//        } else {
-//            val quotes = quoteDatabase.quoteDao().getQuotes()
-//            val quotesList = QuoteList(1, 1, 1, quotes, 1, 1)
-//            quotesLiveData.postValue(quotesList)
-//        }
+        return quotesLiveData
 
     }
 
@@ -74,7 +62,6 @@ class QuotesRepository(
     }
 
     suspend fun clearQuotes() {
-        //_randomQuote.value?.let { quoteDatabase.quoteDao().clearQuotes(it._id) }
         quoteDatabase.quoteDao().clearQuotesAll()
         getQuotes()
     }

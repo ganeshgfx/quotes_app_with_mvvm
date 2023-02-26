@@ -15,11 +15,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.core.IsNot.not
+
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.runners.MockitoJUnitRunner
+
 
 class MainActivityTest {
 

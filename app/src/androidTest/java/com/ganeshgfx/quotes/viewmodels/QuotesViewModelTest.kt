@@ -32,8 +32,7 @@ class QuotesViewModelTest {
         MockitoAnnotations.initMocks(this)
 
         TestScope().launch {
-            Mockito.`when`(repository.getRandomQuote()).then{
-            }
+            //Mockito.`when`(repository.getRandomQuote()).then()
         }
         //Dispatchers.setMain(testDispacher)
     }
