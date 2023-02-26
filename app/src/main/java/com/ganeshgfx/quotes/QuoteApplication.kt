@@ -5,6 +5,7 @@ import com.ganeshgfx.quotes.api.QuoteService
 import com.ganeshgfx.quotes.api.RetrofitHelper
 import com.ganeshgfx.quotes.repository.QuotesRepository
 import com.ganeshgfx.quotes.room.QuoteDatabase
+import com.ganeshgfx.quotes.utils.NetworkUtils
 
 class QuoteApplication : Application(){
 
@@ -18,6 +19,6 @@ class QuoteApplication : Application(){
     private fun initialize() {
         val quoteService = RetrofitHelper.getInstance().create(QuoteService::class.java)
         val database = QuoteDatabase.getDatabase(applicationContext)
-        quotesRepository = QuotesRepository(quoteService,database,applicationContext)
+        quotesRepository = QuotesRepository(quoteService,database,applicationContext, NetworkUtils())
     }
 }
