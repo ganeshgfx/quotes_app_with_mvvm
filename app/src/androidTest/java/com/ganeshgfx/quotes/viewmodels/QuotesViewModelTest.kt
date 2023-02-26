@@ -20,6 +20,7 @@ import org.mockito.MockitoAnnotations
 
 class QuotesViewModelTest {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private var testDispacher = StandardTestDispatcher()
 
     @Mock
@@ -32,7 +33,6 @@ class QuotesViewModelTest {
 
         TestScope().launch {
             Mockito.`when`(repository.getRandomQuote()).then{
-
             }
         }
         //Dispatchers.setMain(testDispacher)

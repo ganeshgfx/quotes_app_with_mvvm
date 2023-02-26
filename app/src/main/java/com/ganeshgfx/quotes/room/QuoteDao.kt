@@ -1,5 +1,6 @@
 package com.ganeshgfx.quotes.room
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -16,6 +17,12 @@ interface QuoteDao {
 
     @Query("SELECT * FROM quote")
     suspend fun getQuotes() : List<Result>
+
+    @Query("SELECT * FROM quote")
+    fun getQuotesLiveData() : LiveData<List<Result>>
+
+    @Query("SELECT * FROM quote WHERE _id == :id")
+    suspend fun getOneQuote(id:String) : Result
 
     @Query("DELETE from quote WHERE _id != :id")
     suspend fun clearQuotes(id:String)

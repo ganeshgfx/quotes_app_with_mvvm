@@ -93,12 +93,6 @@ class MainActivity : AppCompatActivity() {
             val shareIntent = Intent.createChooser(sendIntent, "Share Quote")
             startActivity(shareIntent)
 
-
-//            val intent = Intent(Intent.ACTION_SEND)
-//            intent.setType("text/plain")
-//            intent.putExtra(Intent.EXTRA_TEXT,  mainViewModel.getTextToShare())
-//            startActivity(intent)
-
         }
 
         supportActionBar?.title = "Random Quotes"

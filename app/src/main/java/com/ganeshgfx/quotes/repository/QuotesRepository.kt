@@ -9,6 +9,8 @@ import com.ganeshgfx.quotes.models.QuoteList
 import com.ganeshgfx.quotes.room.QuoteDatabase
 import com.ganeshgfx.quotes.utils.NetworkUtils
 import com.ganeshgfx.quotes.models.Result
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class QuotesRepository(
     private val quoteService: QuoteService,
@@ -24,7 +26,6 @@ class QuotesRepository(
 
     val randomQuote: LiveData<Result>
         get() = _randomQuote
-
 
     suspend fun getQuotes() {
 
