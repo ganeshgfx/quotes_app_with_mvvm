@@ -61,7 +61,8 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:2.2.0"
 
     //mock webserver
-    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.14.9'
+    testImplementation "com.squareup.okhttp3:mockwebserver:4.10.0"
+    testImplementation 'com.google.code.gson:gson:2.10.1'
 
     //coroutines in test
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
@@ -73,11 +74,8 @@ dependencies {
     //mockito
     testImplementation 'org.mockito:mockito-core:5.1.1'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
-    //androidTestImplementation 'org.mockito:mockito-core:5.1.1'
-    //androidTestImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
     androidTestImplementation 'org.mockito:mockito-android:5.1.1'
     androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
-
 
     //room
     testImplementation 'androidx.room:room-testing:2.5.0'
