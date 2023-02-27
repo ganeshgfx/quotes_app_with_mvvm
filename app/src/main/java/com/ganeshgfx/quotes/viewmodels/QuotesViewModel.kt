@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 class QuotesViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val app : QuoteApplication = application as QuoteApplication
+    private val app: QuoteApplication = application as QuoteApplication
     private val repository = app.quotesRepository
 
     val quotes: LiveData<QuoteList>
@@ -41,37 +41,32 @@ class QuotesViewModel(application: Application) : AndroidViewModel(application) 
         repository.getRandomQuote()
         repository.addOldRandomQuoteToDb()
         repository.getQuotes()
-        Log.d("TAG", "Size : ${quotes.value?.results?.size}")
     }
 
     suspend fun clearQuotes(){
         repository.clearQuotes()
         repository.getQuotes()
-        Log.d("TAG", "Size : ${quotes.value?.results?.size}")
     }
 
-    fun copyText():Boolean{
-        val textToCopy =  getTextToShare()
-        val clipboardManager = app.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clipData = ClipData.newPlainText("text", textToCopy)
-        clipboardManager.setPrimaryClip(clipData)
-        return true
+    fun copyText(): Boolean {
+        val textToCopy = randomQuote.value?.let {
+            getTextToShare(
+                it.content,
+                it.author
+            )
+        }
+        val result = textToCopy?.let { app.copyText(it) }
+        return textToCopy == result
     }
 
     var isLoading = MutableLiveData(false)
-    fun onRefresh(){
-        viewModelScope.launch(Dispatchers.IO){
+    fun onRefresh() {
+        viewModelScope.launch(Dispatchers.IO) {
+            isLoading.postValue(true)
             refreshQuote()
             isLoading.postValue(false)
         }
     }
-    fun getTextToShare() = "${randomQuote.value?.content} ~ ${randomQuote.value?.author}"
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelScope.launch {
-            repository.addOldRandomQuoteToDb()
-        }
-    }
-
+    fun getTextToShare(content:String,author:String) = "$content ~ $author"
 }

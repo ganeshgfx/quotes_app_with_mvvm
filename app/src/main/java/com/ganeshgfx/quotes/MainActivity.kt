@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
 //            ViewModelProvider(this, MainViewModelFactory(repository))[MainViewModel::class.java]
 
         //AndroidViewModel
+
         mainViewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory(application)
@@ -87,7 +88,9 @@ class MainActivity : AppCompatActivity() {
 
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, mainViewModel.getTextToShare())
+                mainViewModel.randomQuote.value?.let {
+                    putExtra(Intent.EXTRA_TEXT, mainViewModel.getTextToShare(it.content,it.author))
+                }
                 type = "text/plain"
             }
             val shareIntent = Intent.createChooser(sendIntent, "Share Quote")
