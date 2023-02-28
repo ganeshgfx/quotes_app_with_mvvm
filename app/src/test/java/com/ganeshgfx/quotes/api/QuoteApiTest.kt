@@ -8,15 +8,10 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
-import java.io.IOException
-import java.net.SocketTimeoutException
-import java.util.concurrent.TimeUnit
 
 class QuoteApiTest {
 
@@ -90,7 +85,7 @@ class QuoteApiTest {
     }
 
     @After
-    fun tearDowm() {
+    fun tearDown() {
         mockWebServer.shutdown()
     }
 }
